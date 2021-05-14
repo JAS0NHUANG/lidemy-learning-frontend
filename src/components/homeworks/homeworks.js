@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Typography, Tabs } from "antd";
-import HomeworkModal from "./homeworkModal";
+import { Table, Typography, Tabs } from "antd";
 import Loading from "../loading";
 import columns from "../common/columns";
 import search from "../common/search";
@@ -17,7 +16,6 @@ const Homeworks = () => {
     page: 1
   };
   const [userId, setUserId] = useState(null);
-  const [visible, setVisible] = useState(false);
   const [params, setParams] = useState(initParams);
   const {
     homeworks,
@@ -31,7 +29,6 @@ const Homeworks = () => {
   }));
   const dispatch = useDispatch();
   const getHomeworks = payload => dispatch(Actions.GET_HOMEWORKS(payload));
-  const createHomework = payload => dispatch(Actions.CREATE_HOMEWORK(payload));
 
   const changeTab = key => {
     switch (key) {
@@ -50,18 +47,6 @@ const Homeworks = () => {
         setUserId(0);
         break;
     }
-  };
-
-  const closeModal = () => {
-    setVisible(false);
-  };
-
-  const showModal = () => {
-    setVisible(true);
-  };
-
-  const handleCreate = payload => {
-    createHomework(payload);
   };
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -114,13 +99,7 @@ const Homeworks = () => {
 
   return (
     <div>
-      <HomeworkModal
-        visible={visible}
-        onCancel={closeModal}
-        onConfirm={handleCreate}
-      />
       <Title level={3}>作業列表</Title>
-      <Button onClick={showModal}>新增作業</Button>
       <Tabs defaultActiveKey="all" onChange={changeTab}>
         <TabPane tab="所有作業" key="all">
           {isLoadingGetHomeworks && <Loading />}
